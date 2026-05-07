@@ -2,7 +2,7 @@
   set -euo pipefail
 
   SRC_DIR="$(cd "$(dirname "$0")" && pwd)"                                                                             
-  SRC_FILE="$SRC_DIR/claude/01_scs/CLAUDE.md"
+  SRC_FILE="$SRC_DIR/CLAUDE.md"
   DEST_DIR="$HOME/.claude"                                                                                             
   DEST_FILE="$DEST_DIR/CLAUDE.md"
                                                                                                                        
