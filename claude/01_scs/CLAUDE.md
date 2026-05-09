@@ -208,7 +208,18 @@ Codex CLI の指摘はすべて鵜呑みにしないでください。
 - MyBatis を使用している場合は、既存の Mapper / Example / XML の構成を優先してください。
 - Spring Data JPA と MyBatis を混在させる場合は、Entity 管理対象の違いに注意してください。
 
----
+### MyBatis 自動生成 Mapper の活用
+
+- **単一テーブルの CRUD は、MyBatis Generator が生成した auto Mapper をまず再利用してください。**
+  - `selectByPrimaryKey` / `selectByExample` / `insertSelective` / `updateByPrimaryKeySelective` / `updateByExampleSelective` などで多くの操作はカバーできます。
+  - ソートは `Example#setOrderByClause("col1, col2")`、フィルタは `Example#createCriteria().andXxxEqualTo(...)` で記述します。
+- **カスタム Mapper (XML SQL) を新設してよいケース** は次のいずれかに限定してください:
+  - 複数テーブルの JOIN
+  - DB 固有機能の利用 (例: PostgreSQL の `ON CONFLICT`, ウィンドウ関数, CTE)
+  - 自動生成 Entity に存在しないカラムを返したい (Generator 未再実行のため新カラムが Entity に無いケースを含む)
+  - 動的 SQL の組み立てが Example では複雑になりすぎる場合
+- カスタム Mapper を書く前に「auto-generated で書けないか？」を必ず一度確認してください。
+- Service 層では Entity と DTO の変換を行い、Mapper は素直に Entity を返してください。---
 
 ## Python / Django の方針
 
